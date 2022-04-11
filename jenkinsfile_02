@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+stages {
+   stage('SCM checkout') {
+    steps {
+     checkout([$class: 'GitSCM', branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/iamraashokkumar/java-app.git']]])
+	 sh 'ls -ltr'
+    }
+  }
+
+stage('Mvn build') {
+    steps {
+      sh 'rm -rf target/*'
+	  sh 'mvn clean package'
+    }
+  }
+
+stage('Docker build push run') {
+    steps {
+	  withCredentials([usernamePassword(credentialsId: 'Docker_Hub', passwordVariable: 'DockerPass', usernameVariable: 'DockerUser')]) {
+	  sh 'docker login -u $DockerUser -p $DockerPass'
+}
+	  sh 'sh build.sh'
+	  
+    }
+  }
+
+}
+
+}
