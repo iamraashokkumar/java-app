@@ -6,4 +6,6 @@ docker build -t iamraashoka/java-app:$version .
 echo "Push the $version to docker hub"
 docker push iamraashoka/java-app:$version
 echo "Run the docker with $version"
-docker run -dit --name java-app iamraashoka/java-app:$version
+docker stop java-app
+docker rm java-app
+docker run -dit --name java-app -p 8081:8080 iamraashoka/java-app:$version
