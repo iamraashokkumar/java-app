@@ -2,5 +2,5 @@
 version=`grep -i version properties | cut -f2 -d '='`
 echo $version
 
-docker build -t learnitguide/java-app:$version .
-docker push learnitguide/java-app:$version
+docker build -t iamraashoka/java-app:$version .
+docker push iamraashoka/java-app:$version
